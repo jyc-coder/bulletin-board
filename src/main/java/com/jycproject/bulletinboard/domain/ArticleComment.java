@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Table(indexes = {
 
         @Index(columnList ="content"),
@@ -29,7 +29,10 @@ public class ArticleComment extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Setter private Long id;
+
     @Setter private @ManyToOne(optional = false) Article article; // 게시글 (ID)
+    @Setter private @ManyToOne(optional = false) UserAccount userAccount; // 유저 정보(ID)
+
     @Setter @Column(nullable = false, length = 500 )private String content; // 본문
 
 
@@ -37,13 +40,14 @@ public class ArticleComment extends AuditingFields {
     protected ArticleComment() {
     }
 
-    private ArticleComment(Article article, String content) {
+    private ArticleComment(Article article,UserAccount userAccount, String content) {
         this.article = article;
+        this.userAccount = userAccount;
         this.content = content;
     }
 
-    public static ArticleComment of(Article article, String content) {
-       return new ArticleComment(article,content);
+    public static ArticleComment of(Article article,UserAccount userAccount, String content) {
+       return new ArticleComment(article,userAccount,content);
     }
     @Override
     public boolean equals(Object o) {

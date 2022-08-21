@@ -2,6 +2,7 @@ package com.jycproject.bulletinboard.repository;
 
 import com.jycproject.bulletinboard.config.JpaConfig;
 import com.jycproject.bulletinboard.domain.Article;
+import com.jycproject.bulletinboard.domain.UserAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,19 @@ class JpaRepositoryTest {
 
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
+
 
     public JpaRepositoryTest(
            @Autowired ArticleRepository articleRepository,
-           @Autowired ArticleCommentRepository articleCommentRepository
+           @Autowired ArticleCommentRepository articleCommentRepository,
+           @Autowired UserAccountRepository userAccountRepository
+
     ) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
+
     }
 
 
@@ -52,10 +59,13 @@ class JpaRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine() {
         // Given
         long previousCount = articleRepository.count();
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("jyc","pw",null,null,null));
+
+        Article article = Article.of(userAccount,"new Article","new content","#spring");
 
 
         // When
-        Article savedArticle = articleRepository.save(Article.of("new article", "new content", "#spring"));
+       articleRepository.save(article);
         // Then
         assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
 

@@ -143,7 +143,7 @@ class ArticleServiceTest {
     void givenNonexistentArticleInfo_whenUpdatingArticle_thenLogsWarningAndDoesNothing(){
         // Given
         ArticleDto dto = createArticleDto("새 타이틀","새 내용","#springboot");
-        given(articleRepository.getReferenceById(dto.id())).willThrow(EntityNotFoundException.class););
+        given(articleRepository.getReferenceById(dto.id())).willThrow(EntityNotFoundException.class);
 
         // When
         sut.updateArticle(dto);

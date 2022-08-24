@@ -4,12 +4,9 @@ import com.jycproject.bulletinboard.domain.Article;
 import com.jycproject.bulletinboard.domain.UserAccount;
 import com.jycproject.bulletinboard.domain.type.SearchType;
 import com.jycproject.bulletinboard.dto.ArticleDto;
-import com.jycproject.bulletinboard.dto.ArticleUpdateDto;
 import com.jycproject.bulletinboard.dto.ArticleWithCommentsDto;
 import com.jycproject.bulletinboard.dto.UserAccountDto;
 import com.jycproject.bulletinboard.repository.ArticleRepository;
-import net.bytebuddy.asm.Advice;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,17 +16,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 
@@ -67,12 +61,12 @@ class ArticleServiceTest {
         SearchType searchType = SearchType.TITLE;
         String searchKeyword = "title";
         Pageable pageable = Pageable.ofSize(20);
-        given(articleRepository.findByTitle(searchKeyword,pageable)).willReturn(Page.empty());
+        given(articleRepository.findByTitleContaining(searchKeyword,pageable)).willReturn(Page.empty());
         // When
         Page<ArticleDto> articles = sut.searchArticles(searchType,searchKeyword,pageable);
         // Then
         assertThat(articles).isEmpty();
-        then(articleRepository).should().findByTitle(searchKeyword,pageable);
+        then(articleRepository).should().findByTitleContaining(searchKeyword,pageable);
     }
 
     @DisplayName("게시글을 조회하면, 게시글을 반환한다.")

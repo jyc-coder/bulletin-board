@@ -89,20 +89,24 @@ class ArticleControllerTest {
         then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(),Page.empty().getTotalPages()); // getPaginationBarNumbers 호출 확인
     }
 
-    @DisplayName("[view][GET] 게시글 상세 페이지 - 정상 호출")
+    @DisplayName("[view][GET] 게시글 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingArticleView_thenReturnsArticleView() throws Exception {
         // Given
         Long articleId = 1L;
+        Long totalCount = 1L;
         given(articleService.getArticle(articleId)).willReturn(createArticleCommentsDto());
+        given(articleService.getArticleCount()).willReturn(totalCount);
         // When & Then
         mvc.perform(get("/articles/" + articleId))
                 .andExpect(status().isOk()) // 정상 호출
                 .andExpect(result -> content().contentType(MediaType.TEXT_HTML)) // 데이터 확인
                 .andExpect(view().name("articles/detail")) // 뷰의 존재여부 검사
                 .andExpect(model().attributeExists("article")) // 뷰에 모델 어트리뷰트로 넣어준 데이터존재 여부 검사
-                .andExpect(model().attributeExists("articleComments"));
+                .andExpect(model().attributeExists("articleComments"))
+                .andExpect(model().attribute("totalCount",totalCount)); // getArticleCount()호출 여부
         then(articleService).should().getArticle(articleId);
+        then(articleService).should().getArticleCount();
     }
 
 

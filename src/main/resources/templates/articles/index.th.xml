@@ -8,19 +8,19 @@
                 <attr sel="th.title/a" th:text="제목" th:href="@{/articles(
                 page=${articles.number},
                 sort='title' + (*{sort.getOrderFor('title')} != null ? (*{sort.getOrderFor('title').direction.name} != 'DESC' ? ',desc' : '') : '')
-                )}" />
+                )}"/>
                 <attr sel="th.hashtag/a" th:text="해시태그" th:href="@{/articles(
                 page=${articles.number},
                 sort='hashtag' + (*{sort.getOrderFor('hashtag')} != null ? (*{sort.getOrderFor('hashtag').direction.name} != 'DESC' ? ',desc' : '') : '')
-                )}" />
+                )}"/>
                 <attr sel="th.user-id/a" th:text="작성자" th:href="@{/articles(
                 page=${articles.number},
                 sort='userAccount.userId' + (*{sort.getOrderFor('userAccount.userId')} != null ? (*{sort.getOrderFor('userAccount.userId').direction.name} != 'DESC' ? ',desc' : '') : '')
-                )}" />
+                )}"/>
                 <attr sel="th.created-at/a" th:text="작성일" th:href="@{/articles(
                 page=${articles.number},
                 sort='createdAt' + (*{sort.getOrderFor('createdAt')} != null ? (*{sort.getOrderFor('createdAt').direction.name} != 'DESC' ? ',desc' : '') : '')
-                )}" />
+                )}"/>
             </attr>
 
             <attr sel="tbody" th:remove="all-but-first">
@@ -33,33 +33,6 @@
                 </attr>
             </attr>
         </attr>
-<<<<<<< Updated upstream
-    </attr>
-<<<<<<< Updated upstream
-
-    <attr sel="#pagination">
-        <attr sel="li[0]/a"
-            th:text="'previous'"
-            th:href="@{/articles(page=${articles.number - 1})}"
-            th:class="'page-link' + (${articles.number} <= 0 ? ' disabled' : '' )"
-        />
-        <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
-            <attr sel="a"
-                  th:text="${pageNumber + 1}"
-                  th:href="@{/articles(page=${pageNumber})}"
-                  th:class="'page-link' + (${pageNumber} == ${articles.number} ? ' disabled' : '')"
-            />
-        </attr>
-        <attr sel="li[2]/a"
-                  th:text="'next'"
-                  th:href="@{/articles(page=${articles.number + 1})}"
-                  th:class="'page-link' + (${articles.number} >= ${articles.totalPages -1} ? ' disabled' : '')"
-        />
-
-    </attr>
-=======
-=======
-
         <attr sel="#pagination">
             <attr sel="li[0]/a"
                   th:text="'previous'"
@@ -80,8 +53,6 @@
             />
 
         </attr>
-    </attr>
 
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+    </attr>
 </thlogic>

@@ -1,6 +1,7 @@
 package com.jycproject.bulletinboard.controller;
 
 import com.jycproject.bulletinboard.config.SecurityConfig;
+import com.jycproject.bulletinboard.domain.type.SearchType;
 import com.jycproject.bulletinboard.dto.ArticleWithCommentsDto;
 import com.jycproject.bulletinboard.dto.UserAccountDto;
 import com.jycproject.bulletinboard.service.ArticleService;
@@ -61,9 +62,32 @@ class ArticleControllerTest {
         then(paginationService).should().getPaginationBarNumbers(anyInt(),anyInt());
     }
 
+    @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 검색어와 함께 호출")
+    @Test
+    public void givenSearchKeyword_whenSearchingArticlesView_thenReturnsArticlesView() throws Exception {
+        // Given
+        SearchType searchType = SearchType.TITLE;
+        String searchValue = "title";
+        given(articleService.searchArticles(eq(searchType), eq(searchValue),any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(),anyInt())).willReturn(List.of(0,1,2,3,4));
+        // When & Then
+        mvc.perform(get("/articles")
+                        .queryParam("searchType",searchType.name())
+                        .queryParam("searchValue",searchValue)
+                )
+                .andExpect(status().isOk()) // 정상 호출
+                .andExpect(result -> content().contentType(MediaType.TEXT_HTML)) // 데이터 확인
+                .andExpect(view().name("articles/index")) // 뷰의 존재여부 검사
+                .andExpect(model().attributeExists("articles")) // 뷰에 모델 어트리뷰트로 넣어준 데이터존재 여부 검사
+                .andExpect(model().attributeExists("searchTypes"));
+        then(articleService).should().searchArticles(eq(searchType), eq(searchValue),any(Pageable.class));
+        then(paginationService).should().getPaginationBarNumbers(anyInt(),anyInt());
+    }
+
+
     @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 페이징, 정렬기능")
     @Test
-    public void givenPagingAndSortingParams_whenSearchingArticlesPage_thenReturnsArticlesPage() throws Exception {
+    public void givenPagingAndSortingParams_whenSearchingArticlesView_thenReturnsArticlesView() throws Exception {
         // Given
         String sortName ="title";
         String direction = "desc";

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Objects;
+
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
@@ -21,19 +24,19 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional(readOnly = true)
-    public Page<ArticleDto> searchArticles(SearchType searchType, String searchKeyword, Pageable pageable){
-        if(searchKeyword == null || searchKeyword.isBlank()) {
+    public Page<ArticleDto> searchArticles(SearchType searchType, String searchKeyword, Pageable pageable) {
+        if (searchKeyword == null || searchKeyword.isBlank()) {
             return articleRepository.findAll(pageable).map(ArticleDto::from);
         }
-        switch (searchType){
-            case TITLE ->  articleRepository.findByTitleContaining(searchKeyword, pageable).map(ArticleDto::from);
-            case CONTENT ->  articleRepository.findByContentContaining(searchKeyword, pageable).map(ArticleDto::from);
-            case ID ->  articleRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(ArticleDto::from);
-            case NICKNAME ->  articleRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(ArticleDto::from);
-            case HASHTAG ->  articleRepository.findByHashtag("#" + searchKeyword, pageable).map(ArticleDto::from);
+        return switch (searchType) {
+            case TITLE -> articleRepository.findByTitleContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case CONTENT -> articleRepository.findByContentContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case ID ->
+                    articleRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case NICKNAME ->
+                    articleRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case HASHTAG -> articleRepository.findByHashtag("#" + searchKeyword, pageable).map(ArticleDto::from);
         };
-
-        return Page.empty();
     }
 
     @Transactional(readOnly = true)
@@ -62,7 +65,7 @@ public class ArticleService {
                 article.setContent(dto.content());
             }
             article.setHashtag(dto.hashtag());
-        } catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             log.warn("게시글 업데이트 실패. 게시글을 찾을수 없습니다 - dto: {}", dto);
         }
     }
@@ -71,7 +74,7 @@ public class ArticleService {
         articleRepository.deleteById(articleId);
     }
 
-    public long getArticleCount(){
+    public long getArticleCount() {
         return articleRepository.count();
     }
 

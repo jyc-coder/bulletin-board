@@ -31,7 +31,7 @@ public class ArticleComment extends AuditingFields {
     @Setter private Long id;
 
     @Setter private @ManyToOne(optional = false) Article article; // 게시글 (ID)
-    @Setter private @ManyToOne(optional = false) UserAccount userAccount; // 유저 정보(ID)
+    @Setter private @ManyToOne(optional = false) @JoinColumn(name = "userId") UserAccount userAccount; // 유저 정보(ID)
 
     @Setter @Column(nullable = false, length = 500 )private String content; // 본문
 

@@ -37,7 +37,7 @@ public class Article extends AuditingFields {
 
 
     @Setter @Column(nullable = false) private String title; // 제목
-    @Setter @ManyToOne(optional = false) private UserAccount userAccount;
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "userId") private UserAccount userAccount; // 유저 정보 ID
     @Setter @Column(nullable = false,length = 10000) private String content; // 본문
 
     @Setter private String hashtag; // 해시태그

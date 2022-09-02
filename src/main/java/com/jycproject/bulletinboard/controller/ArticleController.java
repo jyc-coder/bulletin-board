@@ -87,7 +87,7 @@ public class ArticleController {
     public String postNewArticle(ArticleRequest articleRequest){
         //TODO : 인증 정보를 넣어줘야함
         articleService.saveArticle(articleRequest.toDto(UserAccountDto.of(
-                "jyc","asdf1234","jyc@mail.com","Jyc","memo",null,null,null,null
+                "jyc","asdf1234","jyc@mail.com","Jyc","memo"
         )));
         return "redirect:/articles";
     }

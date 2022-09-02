@@ -283,7 +283,7 @@ class ArticleControllerTest {
 
     @DisplayName("[view][POST] 게시글 삭제 - 정상 호출")
     @Test
-     void givenArticleIdToDelete_whenRequesting_thenDeletesNewArticle() throws Exception {
+     void givenArticleIdToDelete_whenRequesting_thenDeletesArticle() throws Exception {
         // Given
         long articleId = 1L;
         willDoNothing().given(articleService).deleteArticle(articleId);

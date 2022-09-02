@@ -48,10 +48,11 @@
 
     <div class="row 9-5">
         <section>
-            <form class="row g-3">
+            <form class="row g-3" id="comment-form">
+                <input type="hidden" class="article-id">
                 <div class="col-md-9 col-lg-8">
-                    <label for="articleComment" hidden>댓글</label>
-                    <textarea class="form-control" id="articleComment" placeholder="댓글 쓰기.." rows="3"
+                    <label for="comment-textbox" hidden>댓글</label>
+                    <textarea class="form-control" id="comment-textbox" placeholder="댓글 쓰기.." rows="3"
                               required></textarea>
                 </div>
                 <div class="col-md-3 col-lg-4">
@@ -63,8 +64,8 @@
 
             <ul id="article-comments" class="row col-md-10 col-lg-8 pt-3">
                 <li>
-                    <form>
-                        <input hidden class="article-id">
+                    <form class="comment-form">
+                        <input type="hidden"  class="article-id">
                         <div class="row">
                             <div class="row col-md-10 col-lg-9">
                                 <strong>Jyc</strong>
@@ -75,6 +76,9 @@
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>
                                     Lorem ipsum dolor sit amet
                                 </p>
+                            </div>
+                            <div class="col-2 mb-3">
+                                <button type="submit" class="btn btn-outline-danger" id="delete-comment">삭제</button>
                             </div>
                         </div>
                     </form>

@@ -8,6 +8,7 @@ import com.jycproject.bulletinboard.dto.ArticleUpdateDto;
 import com.jycproject.bulletinboard.dto.UserAccountDto;
 import com.jycproject.bulletinboard.repository.ArticleCommentRepository;
 import com.jycproject.bulletinboard.repository.ArticleRepository;
+import com.jycproject.bulletinboard.repository.UserAccountRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,10 @@ class ArticleCommentServiceTest {
     @Mock
     private ArticleRepository articleRepository;
 
+    @Mock
+    private UserAccountRepository userAccountRepository;
+
+
     @DisplayName("게시글 ID를 조회하면, 해당하는 댓글 리스트를 반환한다.")
     @Test
     void givenArticleId_whenSearchingArticleComments_thenReturnsComments(){
@@ -63,10 +68,13 @@ class ArticleCommentServiceTest {
         // Given
         ArticleCommentDto dto = createArticleCommentDto("댓글");
         given(articleRepository.getReferenceById(dto.articleId())).willReturn(createArticle());
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
+        given(articleCommentRepository.save(any(ArticleComment.class))).willReturn(null);
         // When
         sut.saveArticleComment(dto);
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
         then(articleCommentRepository).should().save(any(ArticleComment.class));
     }
     @DisplayName("댓글 저장을 시도했는데 맞는 게시글이 없으면, 경고 로그를 찍고 아무것도 안한다.")
@@ -79,6 +87,7 @@ class ArticleCommentServiceTest {
         sut.saveArticleComment(dto);
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).shouldHaveNoInteractions();
         then(articleCommentRepository).shouldHaveNoInteractions();
     }
 

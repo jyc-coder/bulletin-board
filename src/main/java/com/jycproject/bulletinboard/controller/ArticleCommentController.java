@@ -21,7 +21,7 @@ public class ArticleCommentController {
     @PostMapping("/new")
     public String postNewArticleComment(ArticleCommentRequest articleCommentRequest,
                                         @AuthenticationPrincipal BoardPrincipal boardPrincipal
-                                        ) {
+    ) {
         articleCommentService.saveArticleComment(articleCommentRequest.toDto(boardPrincipal.toDto()));
         return "redirect:/articles/" + articleCommentRequest.articleId();
     }
@@ -30,11 +30,11 @@ public class ArticleCommentController {
     public String deleteArticleComment(@PathVariable Long commentId,
                                        Long articleId,
                                        @AuthenticationPrincipal BoardPrincipal boardPrincipal
-    ){
+    ) {
         articleCommentService.deleteArticleComment(commentId, boardPrincipal.getUsername());
 
 
-        return "redirect:/articles/" + articleId ;
+        return "redirect:/articles/" + articleId;
     }
 
 }

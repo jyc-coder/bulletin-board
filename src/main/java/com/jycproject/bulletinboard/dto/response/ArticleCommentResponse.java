@@ -13,12 +13,13 @@ public record ArticleCommentResponse(
         String nickname,
         String userId
 ) {
-    public static ArticleCommentResponse of(Long id, String content, LocalDateTime createdAt, String email, String nickname,String userId) {
-       return new ArticleCommentResponse(id, content, createdAt, email, nickname,userId);
+    public static ArticleCommentResponse of(Long id, String content, LocalDateTime createdAt, String email, String nickname, String userId) {
+        return new ArticleCommentResponse(id, content, createdAt, email, nickname, userId);
     }
-    public static ArticleCommentResponse from(ArticleCommentDto dto){
+
+    public static ArticleCommentResponse from(ArticleCommentDto dto) {
         String nickname = dto.userAccountDto().nickname();
-        if(nickname == null || nickname.isBlank()){
+        if (nickname == null || nickname.isBlank()) {
             nickname = dto.userAccountDto().userId();
         }
 

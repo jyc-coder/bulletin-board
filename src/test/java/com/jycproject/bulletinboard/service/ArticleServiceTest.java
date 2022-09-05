@@ -192,9 +192,9 @@ class ArticleServiceTest {
     void givenAndModifiedInfo_whenUpdatingArticle_thenUpdatesArticle(){
         // Given
         Article article = createArticle();
-
         ArticleDto dto = createArticleDto("새 타이틀","새 내용","#springboot");
         given(articleRepository.getReferenceById(dto.id())).willReturn(article);
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(dto.userAccountDto().toEntity());
 
         // When
         sut.updateArticle(dto.id(), dto);
@@ -204,6 +204,7 @@ class ArticleServiceTest {
                 .hasFieldOrPropertyWithValue("content",dto.content())
                 .hasFieldOrPropertyWithValue("hashtag",dto.hashtag());
         then(articleRepository).should().getReferenceById(dto.id());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
     }
     @DisplayName("없는 게시글의 수정정보를 입력하면 경고 로그를 찍고 아무것도 하지 않는다.")
     @Test
@@ -224,13 +225,14 @@ class ArticleServiceTest {
     void givenArticleId_whenDeletingArticle_thenDeletesArticle(){
         // Given
         Long articleId = 1L;
-        willDoNothing().given(articleRepository).deleteById(articleId);
+        String userId = "jyc";
+        willDoNothing().given(articleRepository).deleteByIdAndUserAccount_UserId(articleId,userId);
 
         // When
-        sut.deleteArticle(1L);
+        sut.deleteArticle(1L,userId);
         // Then
 
-        then(articleRepository).should().deleteById(articleId); // delete 메소드가 호출되었는지 여부를 확인
+        then(articleRepository).should().deleteByIdAndUserAccount_UserId(articleId,userId); // delete 메소드가 호출되었는지 여부를 확인
     }
 
     @DisplayName("게시글 수를 조회하면, 게시글 수를 반환한다.")

@@ -1,9 +1,9 @@
 --테스트 계정
 -- TODO: 테스트 용도로 사용하지만 비밀번호가 노출된 데이터 세팅. 개선하는 것이 좋을 지 고민해 보자.
 
-insert into user_account(user_id, user_password,nickname,email,memo,created_at,created_by,modified_at, modified_by) values( 'jyc', 'asdf1234', 'Jyc', 'jyc@mail.com', 'i am jyc.', now(), 'jyc', now(), 'jyc');
+insert into user_account(user_id, user_password,nickname,email,memo,created_at,created_by,modified_at, modified_by) values( 'jyc', '{noop}asdf1234', 'Jyc', 'jyc@mail.com', 'i am jyc.', now(), 'jyc', now(), 'jyc');
 
-insert into user_account(user_id, user_password,nickname,email,memo,created_at,created_by,modified_at, modified_by) values( 'jyc2', 'asdf1234', 'Jyc2', 'jyc2@mail.com', 'i am jyc2.', now(), 'jyc2', now(), 'jyc2');
+insert into user_account(user_id, user_password,nickname,email,memo,created_at,created_by,modified_at, modified_by) values( 'jyc2', '{noop}asdf1234', 'Jyc2', 'jyc2@mail.com', 'i am jyc2.', now(), 'jyc2', now(), 'jyc2');
 
 
 -- 게시글 123

@@ -35,7 +35,10 @@ spring:
 spring:
   config.activate.on-profile: heroku
   datasource:
-    url: jdbc:h2:mem:board;mode=mysql
-    driver-class-name: org.h2.Driver
-  sql.init.mode: always
-  test.database.replace: none
+    url: ${CLEARDB_DATABASE_URL}
+  jpa:
+    hibernate:
+      ddl-auto: create
+  sql:
+    init:
+      mode: always

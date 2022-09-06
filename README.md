@@ -34,4 +34,4 @@ Spring boot
 
 
 # 데모 페이지 
-(작성 중)
+https://bulletinboard-jyc.herokuapp.com/
